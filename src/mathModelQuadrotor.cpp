@@ -31,6 +31,8 @@ StateVector MathModelQuadrotor::calculateStateVector(StateVector &lastStateVecto
     Eigen::Vector3d angularAccelerations;
     angularAcceleration << inverseInertialTensor * (thrustMoment -  angVel * (inertialTensor * angVel));
     //Проинтегрировать
+
+    this -> angularAcceleration = angularAcceleration;
     this->angularVelocity += angularAcceleration * this->paramsSimulator->dt;
     this->orientation += angularVelocity * paramsSimulator->dt;//Угловое положение
 
@@ -50,14 +52,28 @@ StateVector MathModelQuadrotor::calculateStateVector(StateVector &lastStateVecto
     enginesVector << 0.0, 0.0, enginesForce;
     gravityVector << 0.0, 0.0, -GRAVITY_ACCELERATION;
     //Вектор ускорений поступательного движения по x, y, z
-    VectorXd_t accelerationLinear = 1.0 / paramsQuadrotor->mass * rotationMatrix * enginesVector + gravityVector;
+    Eigen::Vector3d accelerationLinear = 1.0 / paramsQuadrotor->mass * rotationMatrix * enginesVector + gravityVector;
 
-
+    this->acceleration = accelerationLinear;
     this->velocity += accelerationLinear * this->paramsSimulator->dt;
-    
+    this->position += velocity * paramsSimulator->dt;//Положение в стартовой системе координат
 
 
-    StateVector nextStateVector();
+    StateVector nextStateVector;
+    nextStateVector.Pitch = nextPitch;
+    nextStateVector.Roll = nextRoll;
+    nextStateVector.Yaw = nextYaw;
+    nextStateVector.VelX = velocity.x();
+    nextStateVector.VelY = velocity.y();
+    nextStateVector.VelZ = velocity.z();
+    nextStateVector.X = position.x();
+    nextStateVector.Y = position.y();
+    nextStateVector.Z = position.z();
+    nextStateVector.PitchRate = angularVelocity.x();
+    nextStateVector.RollRate = angularVelocity.y();
+    nextStateVector.YawRate = angularVelocity.z();
+    nextStateVector.timeStamp = lastStateVector.timeStamp + paramsSimulator->dt;
+    return nextStateVector;
 }
 
 /**

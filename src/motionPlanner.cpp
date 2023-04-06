@@ -1,5 +1,11 @@
 #include "motionPlanner.hpp"
 
+
+MotionPlanner::MotionPlanner()
+{
+
+}
+
 /**
  * @brief функция для расчёта траектории(заполняет коэффициенты полинома)
  * 
@@ -9,7 +15,9 @@
  */
 void			MotionPlanner::calculateTrajectory(StateVector stateVector, MatrixXd_t targetPoints, VectorXd_t timeTrajectory)
 {
+	
 }
+
 
 VectorXd_t		MotionPlanner::getRowsCoeffX(unsigned int indexRows)
 {
@@ -57,4 +65,61 @@ double			MotionPlanner::calculateDesiredAcceleration(VectorXd_t c, double t)
 
 MatrixXd_t		MotionPlanner::trajectoryGenerator(VectorXd_t currentPoints, VectorXd_t targetPoints, double T)
 {
+	
+}
+
+// Получить вектор множителей коэффициентов для полинома положения
+Vectord_t MotionPlanner::getMultsPositionPolynom(double time)
+{
+	Vectord_t mults;
+	
+	for(int p = 5; p >=0; p--)
+	{
+		mults[5 - p]=pow(time, p); 
+	}
+	return mults;
+}
+
+// Получить вектор множителей коэффициентов для полинома скорости
+Vectord_t MotionPlanner::getMultsVelocityPolynom(double time)
+{
+	Vectord_t mults;
+	int m = 5;
+	int p = 4;
+	for(int i = 0; i < 6; i++)
+	{
+		
+		mults[i] = m * pow(time, p);
+		m--;
+		p--;
+	}
+	return mults;
+}
+
+// Получить вектор множителей коэффициентов для полинома ускорения
+Vectord_t MotionPlanner::getMultsAccelerationPolynom(double time)
+{
+	Vectord_t mults;
+	mults << 20 * pow(time, 3), 12 * time * time, 6 * time, 2, 0, 0;
+	return mults;
+}
+
+// Получить вектор-столбец с коэффицентами для заданных начальных и конечных условий
+ColVectord_c MotionPlanner::getCoeffVector(ColVectord_c conditions, double time1, double time2)
+{
+	auto tMatrix = this->getTMatrix(time1, time2);
+	ColVectord_c coeffColVector = tMatrix.inverse() * conditions;
+	return coeffColVector;
+}
+
+Matrixd_t MotionPlanner::getTMatrix(double time1, double time2)
+{
+	Matrixd_t tMatrix;
+	tMatrix.row(0) = getMultsPositionPolynom(time1);
+	tMatrix.row(1) = getMultsPositionPolynom(time2);
+	tMatrix.row(2) = getMultsVelocityPolynom(time1);
+	tMatrix.row(3) = getMultsVelocityPolynom(time2);
+	tMatrix.row(4) = getMultsAccelerationPolynom(time1);
+	tMatrix.row(5) = getMultsAccelerationPolynom(time2);
+	return tMatrix;
 }

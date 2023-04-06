@@ -60,6 +60,10 @@ struct ParamsControlSystem
 // ускорение свободного падения
 const double		GRAVITY_ACCELERATION = 9.81;
 
+typedef Eigen::Matrix<double, 1, 6> 							Vectord_t;
+typedef Eigen::Matrix<double, 6, 1>								ColVectord_c;
+typedef Eigen::Matrix<double, 6, 6> 							Matrixd_t;
+
 typedef Eigen::Matrix<double, Eigen::Dynamic, 1>				VectorXd_t;
 typedef Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>	MatrixXd_t;
 typedef	std::vector<int>										Vec1i_t;

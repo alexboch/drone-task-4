@@ -59,7 +59,7 @@ class UAVControlSystem
 		double						time;
 		double						timeTrajectory; // время, за которое БЛА пролетает траекторию
 		double						timeStopTrajectory; // время, для остановки движения дрона, после достижения конечной точки
-		double						indexPoint; // текущая точка, к которой летит БЛА
+		int							indexPoint; // текущая точка, к которой летит БЛА
 		bool						stopTime; // отключает расчёт траектории от времени
 
 		MotionPlanner*				motionPlanner;

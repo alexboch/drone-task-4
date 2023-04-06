@@ -46,6 +46,7 @@ void		UAVControlSystem::fillDesiredPosition(MatrixXd_t targetPoints)
  */
 void		UAVControlSystem::PIDThrust()
 {
+	
 }
 
 
@@ -82,6 +83,7 @@ void		UAVControlSystem::PIDAngularRate()
  */
 bool		UAVControlSystem::checkRadius(VectorXd_t targetPoints)
 {
+	
 }
 
 /**
@@ -93,6 +95,11 @@ bool		UAVControlSystem::checkRadius(VectorXd_t targetPoints)
  */
 void		UAVControlSystem::saturation(double &arg, double min, double max)
 {
+	if(arg < min)
+		arg = min;
+	else if(arg > max)
+		arg = max;
+		
 }
 
 /**

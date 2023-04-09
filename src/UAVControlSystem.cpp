@@ -9,6 +9,27 @@ UAVControlSystem::UAVControlSystem(const ParamsControlSystem *paramsControlSyste
 								   const ParamsQuadrotor *paramsQuadrotor, MotionPlanner* pathPlaner)
 {
 	
+	this->thrustController = PIDController(paramsControlSystem->KpPosition(2), paramsControlSystem->KiPosition(2), 
+	paramsControlSystem->KpPosition(2), paramsControlSystem->maxThrust);//регулировка тяги по высоте
+	//Угловое положение по положению
+	this->wxController = PIDController(paramsControlSystem->KpPosition(0), paramsControlSystem->KiPosition(0), 
+	paramsControlSystem->KdPosition(0));//крен по x
+	this->wyController = PIDController(paramsControlSystem->KpPosition(1), paramsControlSystem->KiPosition(1),
+	paramsControlSystem->KdPosition(1));//Тангаж по y
+	
+	//Угловая скорость по угловому положению
+	this->wxController = PIDController(paramsControlSystem->KpAngle(0), paramsControlSystem->KiAngle(0), 
+	paramsControlSystem->KdAngle(0));
+	
+
+	//Угловое ускорение по угловой скорости
+	this->awxController = PIDController(paramsControlSystem->KpAngularRate(0), paramsControlSystem->KiAngularRate(0), 
+	paramsControlSystem->KdAngularRate(0));
+	this->awyController = PIDController(paramsControlSystem->KpAngularRate(1), paramsControlSystem->KiAngularRate(1), 
+	paramsControlSystem->KiAngularRate(1));
+	this->awzController = PIDController(paramsControlSystem->KpAngularRate(2), paramsControlSystem->KiAngularRate(2), 
+	paramsControlSystem->KiAngularRate(2));
+	
 }
 
 /**
@@ -43,39 +64,7 @@ void		UAVControlSystem::fillDesiredPosition(MatrixXd_t targetPoints)
 {
 }
 
-/**
- * @brief ПИД по тяги
- * 
- */
-void		UAVControlSystem::PIDThrust()
-{
-	
-}
 
-
-/**
- * @brief ПИД по позиции
- * 
- */
-void		UAVControlSystem::PIDPosition()
-{
-}
-
-/**
- * @brief ПИД по углу
- * 
- */
-void		UAVControlSystem::PIDAngles()
-{
-}
-
-/**
- * @brief ПИД по угловой скорости
- * 
- */
-void		UAVControlSystem::PIDAngularRate()
-{
-}
 
 /**
  * @brief проверка попадания в радиус целевой позиции
@@ -89,21 +78,6 @@ bool		UAVControlSystem::checkRadius(VectorXd_t targetPoints)
 	
 }
 
-/**
- * @brief ограничивает аргумент
- * 
- * @param arg аргумент, который требуется ограничить
- * @param min минимальное значение ограничения
- * @param max максимальное значение ограничения
- */
-void		UAVControlSystem::saturation(double &arg, double min, double max)
-{
-	if(arg < min)
-		arg = min;
-	else if(arg > max)
-		arg = max;
-		
-}
 
 /**
  * @brief перевод из команды по тяги в угловую скорость

@@ -23,6 +23,8 @@ public:
     double SetCurrentValue(double currentValue);
 
     PIDController(double kp, double ki, double kd, double maxValue = INFINITY, double minValue = -INFINITY);
+    PIDController();
+
 };
 
 

@@ -1,5 +1,10 @@
 #include <PIDController.hpp>
 
+PIDController::PIDController()
+{
+    
+}
+
 PIDController::PIDController(double kp, double ki, double kd, double maxValue, double minValue)
 {
     _kp = kp;

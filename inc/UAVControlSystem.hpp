@@ -11,7 +11,7 @@ class UAVControlSystem
 	public:
 		UAVControlSystem(const ParamsControlSystem *paramsControlSystem, const ParamsSimulator *paramsSimulator,
 						 const ParamsQuadrotor *paramsQuadrotor, MotionPlanner* motionPlanner);
-		VectorXd_t					calculateMotorVelocity(VectorXd_t stateVector, TargetPoints_t targetPoints, double time);
+		VectorXd_t					calculateMotorVelocity(StateVector stateVector, TargetPoints_t targetPoints, double time);
 		void				fillErrors();
 		void 				setCurrentState(StateVector currentState);
 

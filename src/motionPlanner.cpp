@@ -1,9 +1,9 @@
 #include "motionPlanner.hpp"
 
 
-MotionPlanner::MotionPlanner()
+MotionPlanner::MotionPlanner(double yaw)
 {
-
+	_yaw = yaw;
 }
 
 /**

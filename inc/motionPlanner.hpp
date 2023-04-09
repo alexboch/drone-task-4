@@ -15,17 +15,23 @@ class MotionPlanner
 		VectorXd_t		getRowsCoeffX(unsigned int indexRows);
 		VectorXd_t		getRowsCoeffY(unsigned int indexRows);
 		VectorXd_t		getRowsCoeffZ(unsigned int indexRows);
+		TargetPoints_t 	getCurrentTargetPoint();
 		unsigned int	getSizeTimeTrajectory();
 		double			getTimeTrajectory(unsigned int indexPoint);
 		double			calculateDesiredPosition(VectorXd_t c, double t);
 		double			calculateDesiredVelocity(VectorXd_t c, double t);
 		double			calculateDesiredAcceleration(VectorXd_t c, double t);
-		MotionPlanner();
+		
+
+
+		/// @brief 
+		/// @param yaw угол рыскания, будет константным
+		MotionPlanner(double yaw);
 
 
 	private:
 
-		
+		double _yaw;
 		// Массив коэффициентов для каждой точки(строка - коэффициенты для точки)
 		MatrixXd_t	xCoeff;
 		MatrixXd_t	yCoeff;

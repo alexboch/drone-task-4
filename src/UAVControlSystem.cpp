@@ -8,6 +8,7 @@
 UAVControlSystem::UAVControlSystem(const ParamsControlSystem *paramsControlSystem, const ParamsSimulator *paramsSimulator,
 								   const ParamsQuadrotor *paramsQuadrotor, MotionPlanner* pathPlaner)
 {
+	
 }
 
 /**
@@ -18,9 +19,10 @@ UAVControlSystem::UAVControlSystem(const ParamsControlSystem *paramsControlSyste
  * @param time 
  * @return VectorXd_t 4 скорости для каждого ротора
  */
-VectorXd_t	UAVControlSystem::calculateMotorVelocity(VectorXd_t stateVector, TargetPoints_t targetPoints, double time)
+VectorXd_t	UAVControlSystem::calculateMotorVelocity(StateVector stateVector, TargetPoints_t targetPoints, double time)
 {
-	
+	auto targetPoint = this->motionPlanner->getCurrentTargetPoint();
+
 }
 
 /**

@@ -12,6 +12,8 @@
 #include 	<math.hpp>
 #include 	<unistd.h>
 #include 	<chrono>
+#include<vector>
+
 // адрес сервера на который мы будем отправлять пакеты
 #define SERVER "127.0.0.1" //localhost
 #define PORT 12346	//Порт отправки данных
@@ -37,7 +39,7 @@ class Simulator
 				  const ParamsSimulator 	&paramsSimulator,
 				  const ParamsControlSystem &paramsControlSystem);
 		~Simulator();
-		void run();
+		void run(std::vector<Eigen::Vector3d> trajectoryCoords);
 		void sendMessage(const StateVector &stateVector);
 };
 

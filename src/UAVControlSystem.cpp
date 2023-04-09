@@ -14,12 +14,13 @@ UAVControlSystem::UAVControlSystem(const ParamsControlSystem *paramsControlSyste
  * @brief расчёт угловых скоростей роторов
  * 
  * @param stateVector вектор состояния БЛА
- * @param targetPoints целевая точка(также могут входить данные о скорости и ускорении)
+ * @param targetPoints целевая точка(x, y, z, угол рыскания)
  * @param time 
- * @return VectorXd_t 
+ * @return VectorXd_t 4 скорости для каждого ротора
  */
-VectorXd_t	UAVControlSystem::calculateMotorVelocity(VectorXd_t stateVector, MatrixXd_t targetPoints, double time)
+VectorXd_t	UAVControlSystem::calculateMotorVelocity(VectorXd_t stateVector, TargetPoints_t targetPoints, double time)
 {
+	
 }
 
 /**
@@ -110,4 +111,14 @@ void		UAVControlSystem::saturation(double &arg, double min, double max)
  */
 double		UAVControlSystem::commandThrustToOmegaRotors(double commandThrust)
 {
+}
+
+void 		UAVControlSystem::fillErrors()
+{
+
+}
+
+void 		UAVControlSystem::setCurrentState(StateVector currentState)
+{
+	
 }

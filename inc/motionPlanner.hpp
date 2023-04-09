@@ -9,6 +9,9 @@ class MotionPlanner
 {
 	public:
 		void			calculateTrajectory(StateVector stateVector, MatrixXd_t targetPoints, VectorXd_t timeTrajectory);
+		
+		void 			SetTargetPoints();
+
 		VectorXd_t		getRowsCoeffX(unsigned int indexRows);
 		VectorXd_t		getRowsCoeffY(unsigned int indexRows);
 		VectorXd_t		getRowsCoeffZ(unsigned int indexRows);
@@ -18,6 +21,8 @@ class MotionPlanner
 		double			calculateDesiredVelocity(VectorXd_t c, double t);
 		double			calculateDesiredAcceleration(VectorXd_t c, double t);
 		MotionPlanner();
+
+
 	private:
 
 		

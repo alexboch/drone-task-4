@@ -1,5 +1,6 @@
 #include "simulator.hpp"
 
+
 Simulator::Simulator(const ParamsQuadrotor &paramsQuadrotor,
 				  const ParamsSimulator &paramsSimulator,
 				  const ParamsControlSystem &paramsControlSystem)
@@ -43,7 +44,7 @@ Simulator::~Simulator()
  * @brief основной метод запускающий процесс симуляции
  * 
  */
-void Simulator::run()
+void Simulator::run(std::vector<Eigen::Vector3d> trajectoryCoords)
 {
 
 	

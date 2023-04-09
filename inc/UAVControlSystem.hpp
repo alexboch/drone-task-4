@@ -4,6 +4,7 @@
 #include "typesData.hpp"
 #include "math.hpp"
 #include "motionPlanner.hpp"
+#include "PIDController.hpp"
 #include <cmath>
 
 class UAVControlSystem
@@ -20,6 +21,24 @@ class UAVControlSystem
 		const ParamsQuadrotor		*paramsQuadrotor;
 		const ParamsControlSystem	*parContrlSyst;
 		
+
+		//ПИД-регуляторы
+
+		
+		PIDController thrustController;//тяги
+		PIDController rollController;
+		PIDController pitchController;
+		
+		//угловой скорости
+		PIDController wxController;
+		PIDController wyController;
+		PIDController wzController;
+
+		//Углового ускорения
+		PIDController awxController;
+		PIDController awyController;
+		PIDController awzController;
+
 		// Ошибки
 		Eigen::Vector3d				angularRateError;
 		Eigen::Vector3d				angularPositionError;

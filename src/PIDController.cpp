@@ -22,7 +22,7 @@ double PIDController::SetCurrentValue(double currentValue)
     _errorSum += err;
     double cmd = _kp * err + _ki * _errorSum + _kd * (err - _prevError);
     _prevError = err;
-    return cmd;
+    return saturation(cmd);
 }
 
 double PIDController::saturation(double arg)

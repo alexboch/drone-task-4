@@ -86,7 +86,13 @@ class UAVControlSystem
 
 		MotionPlanner*				motionPlanner;
 
-		VectorXd_t			mixer();
+		/// @brief Переводит команды по тяге и угловым скоростям по осям в команды для роторов
+		/// @param pDes команда по тяге
+		/// @param wDezX команда по угловой скорости по оси X
+		/// @param wDezY 
+		/// @param wDezZ 
+		/// @return Вектор команд для роторов
+		Eigen::Vector4d			mixer(double pDes, double wDezX, double wDezY, double wDezZ);
 		void				fillDesiredPosition(MatrixXd_t targetPoints);
 		void				PIDThrust();
 		void				PIDPosition();

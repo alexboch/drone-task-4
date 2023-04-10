@@ -54,8 +54,12 @@ VectorXd_t	UAVControlSystem::calculateMotorVelocity(StateVector stateVector, Tar
  * 
  * @return угловая скорость вращения роторов 
  */
-VectorXd_t	UAVControlSystem::mixer()
+Eigen::Vector4d	UAVControlSystem::mixer(double pDes, double wDezX, double wDezY, double wDezZ)
 {
+	Eigen::Vector4d rotorCommands;
+	rotorCommands << pDes + wDezX - wDezZ,
+	pDes - wDezY + wDezZ, pDes - wDezX - wDezZ, pDes + wDezY + wDezZ;
+	return rotorCommands;
 }
 
 /**

@@ -6,6 +6,22 @@
 
 #IncludeRegexTransform: 
 
+../inc/PIDController.hpp
+typesData.hpp
+-
+
+../inc/UAVControlSystem.hpp
+typesData.hpp
+../inc/typesData.hpp
+math.hpp
+../inc/math.hpp
+motionPlanner.hpp
+../inc/motionPlanner.hpp
+PIDController.hpp
+../inc/PIDController.hpp
+cmath
+-
+
 ../inc/math.hpp
 Eigen/Dense
 -
@@ -22,6 +38,40 @@ message.hpp
 
 ../inc/message.hpp
 
+../inc/motionPlanner.hpp
+typesData.hpp
+-
+math.hpp
+-
+message.hpp
+-
+
+../inc/simulator.hpp
+typesData.hpp
+-
+sys/socket.h
+-
+arpa/inet.h
+-
+iostream
+-
+string
+-
+mathModelQuadrotor.hpp
+-
+UAVControlSystem.hpp
+-
+message.hpp
+-
+math.hpp
+-
+unistd.h
+-
+chrono
+-
+vector
+-
+
 ../inc/typesData.hpp
 Eigen/Dense
 -
@@ -32,9 +82,17 @@ vector
 string
 -
 
-/home/user/Downloads/Lab4/quadrotorSim/src/mathModelQuadrotor.cpp
-mathModelQuadrotor.hpp
-/home/user/Downloads/Lab4/quadrotorSim/src/mathModelQuadrotor.hpp
+/home/user/Downloads/Lab4/quadrotorSim/src/UAVControlSystem.cpp
+UAVControlSystem.hpp
+/home/user/Downloads/Lab4/quadrotorSim/src/UAVControlSystem.hpp
+PIDController.hpp
+/home/user/Downloads/Lab4/quadrotorSim/src/PIDController.hpp
+iostream
+-
+
+/home/user/Downloads/Lab4/quadrotorSim/src/simulator.cpp
+simulator.hpp
+/home/user/Downloads/Lab4/quadrotorSim/src/simulator.hpp
 
 /usr/include/eigen3/Eigen/Cholesky
 Core

@@ -33,6 +33,7 @@ UAVControlSystem::UAVControlSystem(const ParamsControlSystem *paramsControlSyste
 	this->awzController = PIDController(paramsControlSystem->KpAngularRate(2), paramsControlSystem->KiAngularRate(2), 
 	paramsControlSystem->KiAngularRate(2));
 	
+	
 }
 
 /**

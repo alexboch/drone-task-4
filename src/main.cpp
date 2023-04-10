@@ -20,7 +20,7 @@ int	main()
 
 	// Создаем объект симулятора
 	Simulator	uavSim(parmsQuadrotor, paramsSimulator, paramsControlSystem);
-	std::vector<Eigen::Vector3d> trajectoryCoordinates;
+	std::vector<Eigen::Vector4d> trajectoryCoordinates;
 	// Запускаем симуляцию
 	uavSim.run(trajectoryCoordinates);
 

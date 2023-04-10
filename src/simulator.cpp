@@ -13,7 +13,9 @@ Simulator::Simulator(const ParamsQuadrotor &paramsQuadrotor,
 	// заданой точки отправляет новое пространственное положение на вход системы управления.
 	// В случае создания оптимальной траектории рассчитывает полином положения от времени и
 	// минимизирует траекторию согласно заданому критерию(см лекции)
-	motionPlanner = new MotionPlanner();
+
+	double yaw = 1.0;
+	motionPlanner = new MotionPlanner(yaw);
 	// объект системы управления БЛА
 	controlSystem = new UAVControlSystem(&paramsControlSystem, &paramsSimulator, &paramsQuadrotor, motionPlanner);
 
@@ -44,10 +46,28 @@ Simulator::~Simulator()
  * @brief основной метод запускающий процесс симуляции
  * 
  */
-void Simulator::run(std::vector<Eigen::Vector3d> trajectoryCoords)
+void Simulator::run(std::vector<Eigen::Vector4d> trajectoryCoords)
 {
 
+	int n = trajectoryCoords.size();
+	MatrixXd_t pointsRowMatrix(n, 3);
+	VectorXd_t timeVector(n);//Вектор-столбец времени
+	for(int i = 0; i < n; i++)
+	{
+		Eigen::Vector3d coordsRow;
+		for(int j = 0; j < 3; j++)
+		{
+			coordsRow << trajectoryCoords[i](j);//Координаты точки в пространстве
+		}
+		double time = trajectoryCoords[i].w();
+		pointsRowMatrix.row(i) = coordsRow;
+		timeVector << time;
+	}
 	
+
+	stateVector = getInitialState();
+	motionPlanner->initializeTrajectory(stateVector, pointsRowMatrix, timeVector);
+	//motionPlanner->initializeTrajectory()
 	// Выполняем моделирование системы в цикле
 	for (double t = 0; t < paramsSimulator.simulationTotalTime; t += paramsSimulator.dt)
 	{
@@ -63,21 +83,21 @@ void Simulator::run(std::vector<Eigen::Vector3d> trajectoryCoords)
 		// Вектор состояния в результате должен формироваться по результатам интегрирования приращений
 		// математической модели(интегрирования линейных и угловых ускорений)
 		// Положение ЛА в стартовой СК
-	    stateVector.X = 0; 
-	    stateVector.Y = 0;
-	    stateVector.Z = 3;
-	    // Скорость ЛА в стартовой СК
-	    stateVector.VelX = 0;
-	    stateVector.VelY = 0;
-	    stateVector.VelZ = 0;
-	    // Угловое положение ЛА
-	    stateVector.Pitch = 0;
-	    stateVector.Roll = 0;
-	    stateVector.Yaw = 0;
-	    // Угловая скорость ЛА
-	    stateVector.PitchRate = 0;
-	    stateVector.RollRate = 0;
-	    stateVector.YawRate = 0;
+	    // stateVector.X = 0; 
+	    // stateVector.Y = 0;
+	    // stateVector.Z = 3;
+	    // // Скорость ЛА в стартовой СК
+	    // stateVector.VelX = 0;
+	    // stateVector.VelY = 0;
+	    // stateVector.VelZ = 0;
+	    // // Угловое положение ЛА
+	    // stateVector.Pitch = 0;
+	    // stateVector.Roll = 0;
+	    // stateVector.Yaw = 0;
+	    // // Угловая скорость ЛА
+	    // stateVector.PitchRate = 0;
+	    // stateVector.RollRate = 0;
+	    // stateVector.YawRate = 0;
 		// устанавливаем метку времени
 		stateVector.timeStamp = t;
 		// Отправляем вектор состояния
@@ -98,4 +118,12 @@ void Simulator::sendMessage(const StateVector &stateVector)
 		// завершаем выполнение программы
 		exit(1);
 	}
+}
+
+StateVector Simulator::getInitialState()
+{
+	StateVector sv;
+	sv.Z = 1;
+	
+	return sv;
 }

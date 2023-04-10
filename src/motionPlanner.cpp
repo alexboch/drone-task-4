@@ -11,11 +11,15 @@ MotionPlanner::MotionPlanner(double yaw)
  * 
  * @param stateVector вектор состояния
  * @param targetPoints матрица координат точек (nx3), где n - кол-во точек
- * @param timeTrajectory массив времени, за которое требуется пролететь от точки до точки
+ * @param timeTrajectory массив времени длины n, за которое требуется пролететь от точки до точки
  */
-void			MotionPlanner::calculateTrajectory(StateVector stateVector, MatrixXd_t targetPoints, VectorXd_t timeTrajectory)
+void			MotionPlanner::initializeTrajectory(StateVector stateVector, MatrixXd_t targetPoints, VectorXd_t timeTrajectory)
 {
 	
+	this->targetPointsRowMatrix = targetPoints;
+	this->timeTrajectory = timeTrajectory;
+	// auto targetCoords = targetPoints.row(0);
+
 }
 
 
@@ -122,4 +126,31 @@ Matrixd_t MotionPlanner::getTMatrix(double time1, double time2)
 	tMatrix.row(4) = getMultsAccelerationPolynom(time1);
 	tMatrix.row(5) = getMultsAccelerationPolynom(time2);
 	return tMatrix;
+}
+
+bool MotionPlanner::checkRadius(StateVector state, Eigen::Vector3d point)
+{
+	const double eps = 0.1;
+	return sqrt(Math::squaring(state.X - point.x()) + Math::squaring(state.Y - point.y()) + Math::squaring(state.Z - point.z())) < eps;
+}
+
+TargetPoints_t MotionPlanner::getCurrentTargetPoint(StateVector stateVector)
+{
+	auto currTargetPoint = targetPointsRowMatrix.row(_currentPointIndex);
+	//Если находимся в радиусе текущей целевой точки, то переходим к следующей
+	if(checkRadius(stateVector, currTargetPoint))
+	{
+		if(_currentPointIndex < _countPoints - 1) 
+		{
+			_currentPointIndex++;
+			//Нужно пересчитать коэффициенты полинома
+			
+		}
+	}
+	TargetPoints_t resultPoint;
+
+	auto currentCoords = targetPointsRowMatrix.row(_currentPointIndex);
+	resultPoint << currentCoords.x(), currentCoords.y(), currentCoords.z();
+	resultPoint << _yaw;
+	return resultPoint;
 }

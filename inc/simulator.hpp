@@ -33,13 +33,15 @@ class Simulator
 		MotionPlanner		*motionPlanner;
 		StateVector			stateVector;
 		ParamsSimulator     paramsSimulator;
+		StateVector getInitialState();
+
 		
 	public:
 		Simulator(const ParamsQuadrotor 	&paramsQuadrotor,
 				  const ParamsSimulator 	&paramsSimulator,
 				  const ParamsControlSystem &paramsControlSystem);
 		~Simulator();
-		void run(std::vector<Eigen::Vector3d> trajectoryCoords);
+		void run(std::vector<Eigen::Vector4d> trajectoryCoords);
 		void sendMessage(const StateVector &stateVector);
 };
 

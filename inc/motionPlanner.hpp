@@ -15,7 +15,9 @@ class MotionPlanner
 		VectorXd_t		getRowsCoeffX(unsigned int indexRows);
 		VectorXd_t		getRowsCoeffY(unsigned int indexRows);
 		VectorXd_t		getRowsCoeffZ(unsigned int indexRows);
-		TargetPoints_t 	getCurrentTargetPoint();
+		//Получить текущую целевую точку в виде вектора (x, y, z, рыскание)
+		TargetPoints_t 	getCurrentTargetPoint(StateVector stateVector);
+
 		unsigned int	getSizeTimeTrajectory();
 		double			getTimeTrajectory(unsigned int indexPoint);
 		double			calculateDesiredPosition(VectorXd_t c, double t);

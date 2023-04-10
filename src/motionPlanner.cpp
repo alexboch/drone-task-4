@@ -144,11 +144,11 @@ TargetPoints_t MotionPlanner::getCurrentTargetPoint(StateVector stateVector)
 		{
 			_currentPointIndex++;
 			//Нужно пересчитать коэффициенты полинома
-			
+
 		}
 	}
 	TargetPoints_t resultPoint;
-
+	//todo: Расчёт по оптимальной траектории
 	auto currentCoords = targetPointsRowMatrix.row(_currentPointIndex);
 	resultPoint << currentCoords.x(), currentCoords.y(), currentCoords.z();
 	resultPoint << _yaw;

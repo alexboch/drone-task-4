@@ -71,33 +71,17 @@ void Simulator::run(std::vector<Eigen::Vector4d> trajectoryCoords)
 	// Выполняем моделирование системы в цикле
 	for (double t = 0; t < paramsSimulator.simulationTotalTime; t += paramsSimulator.dt)
 	{
-		
+		auto targetPoint = motionPlanner->getCurrentTargetPoint(stateVector);
+
+
 		// тут необходимо вызывать методы для получения комманд управления
-		//controlSystem->calculateMotorVelocity(stateVector, )
+		VectorXd_t motorsCmd = controlSystem->calculateMotorVelocity(stateVector, targetPoint, t);
+
 
 		// тут необходимо вызывать методы для вычисления функции правых частей
 		// математической модели, выполнять интегрирование приращений и формирование вектора состояния
 		// Прим. Вектор состояния предлагается использовать в виде структуры(описание структуры в message.hpp)
-		
-		// Пример заполнения вектора состояния
-		// Вектор состояния в результате должен формироваться по результатам интегрирования приращений
-		// математической модели(интегрирования линейных и угловых ускорений)
-		// Положение ЛА в стартовой СК
-	    // stateVector.X = 0; 
-	    // stateVector.Y = 0;
-	    // stateVector.Z = 3;
-	    // // Скорость ЛА в стартовой СК
-	    // stateVector.VelX = 0;
-	    // stateVector.VelY = 0;
-	    // stateVector.VelZ = 0;
-	    // // Угловое положение ЛА
-	    // stateVector.Pitch = 0;
-	    // stateVector.Roll = 0;
-	    // stateVector.Yaw = 0;
-	    // // Угловая скорость ЛА
-	    // stateVector.PitchRate = 0;
-	    // stateVector.RollRate = 0;
-	    // stateVector.YawRate = 0;
+		stateVector = this->mathModelQuadrotor->calculateStateVector(stateVector, motorsCmd);
 		// устанавливаем метку времени
 		stateVector.timeStamp = t;
 		// Отправляем вектор состояния
@@ -124,6 +108,6 @@ StateVector Simulator::getInitialState()
 {
 	StateVector sv;
 	sv.Z = 1;
-	
+
 	return sv;
 }

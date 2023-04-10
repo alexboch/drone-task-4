@@ -20,7 +20,7 @@ class MathModelQuadrotor
 		Eigen::Vector3d			angularVelocity;
 		Eigen::Vector3d			orientation;
 
-		StateVector		functionRight(StateVector &lastStateVector, VectorXd_t rotorsAngularVelocity);
+		MatrixXd_t		functionRight(StateVector &lastStateVector, VectorXd_t rotorsAngularVelocity);
 };
 
 #endif

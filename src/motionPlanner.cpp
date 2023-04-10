@@ -1,5 +1,5 @@
 #include "motionPlanner.hpp"
-
+#include <iostream>
 
 MotionPlanner::MotionPlanner(double yaw)
 {
@@ -18,6 +18,7 @@ void			MotionPlanner::initializeTrajectory(StateVector stateVector, MatrixXd_t t
 	
 	this->targetPointsRowMatrix = targetPoints;
 	this->timeTrajectory = timeTrajectory;
+	this->_currentPointIndex = 0;
 	// auto targetCoords = targetPoints.row(0);
 
 }
@@ -150,7 +151,6 @@ TargetPoints_t MotionPlanner::getCurrentTargetPoint(StateVector stateVector)
 	TargetPoints_t resultPoint;
 	//todo: Расчёт по оптимальной траектории
 	auto currentCoords = targetPointsRowMatrix.row(_currentPointIndex);
-	resultPoint << currentCoords.x(), currentCoords.y(), currentCoords.z();
-	resultPoint << _yaw;
+	resultPoint << currentCoords.x(), currentCoords.y(), currentCoords.z(),_yaw;
 	return resultPoint;
 }

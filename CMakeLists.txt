@@ -24,6 +24,7 @@ set(SIM_CPP_FILES
 	src/math.cpp
 	src/configLoader.cpp
 	src/motionPlanner.cpp
+	src/PIDController.cpp
 )
 # Добавляем библиотеку для симулятора БЛА
 add_library(multicoter_simulator STATIC ${SIM_CPP_FILES})

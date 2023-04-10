@@ -1,5 +1,5 @@
 #include "UAVControlSystem.hpp"
-
+#include "PIDController.hpp"
 #define DEBUG
 #ifdef DEBUG
 	#include <iostream>
@@ -33,7 +33,7 @@ UAVControlSystem::UAVControlSystem(const ParamsControlSystem *paramsControlSyste
 	this->awzController = PIDController(paramsControlSystem->KpAngularRate(2), paramsControlSystem->KiAngularRate(2), 
 	paramsControlSystem->KiAngularRate(2));
 	
-	
+
 }
 
 /**
@@ -46,17 +46,15 @@ UAVControlSystem::UAVControlSystem(const ParamsControlSystem *paramsControlSyste
  */
 VectorXd_t	UAVControlSystem::calculateMotorVelocity(StateVector stateVector, TargetPoints_t targetPoints, double time)
 {
-	auto targetPoint = this->motionPlanner->getCurrentTargetPoint(stateVector);
-	double yawDes = targetPoint(3);//Целевое рыскание
-
-	thrustController.SetTargetValue(targetPoint.z());
+	double yawDes = targetPoints(3);//Целевое рыскание
+	thrustController.SetTargetValue(targetPoints.z());
 	double pDes = thrustController.SetCurrentValue(stateVector.Z);//Команда по тяге
 	//auto rotationMatrix = Math::rotationMatrix2d(stateVector.Yaw);//todo: Матрица поворота
 
 	Eigen::Matrix2d rotationMatrix;
-	pitchController.SetTargetValue(targetPoint.y());
+	pitchController.SetTargetValue(targetPoints.y());
 	double pitchDes_st = this->pitchController.SetCurrentValue(stateVector.Y);//тангаж
-	rollController.SetTargetValue(targetPoint.x());
+	rollController.SetTargetValue(targetPoints.x());
 	double rollDes_st = this->rollController.SetCurrentValue(stateVector.X);
 	Eigen::Vector2d angles;
 	angles << pitchDes_st, rollDes_st;

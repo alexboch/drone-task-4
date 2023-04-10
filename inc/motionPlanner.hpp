@@ -34,7 +34,7 @@ class MotionPlanner
 
 
 		int _countPoints;
-		int _currentPointIndex;//Индекс текущей целевой точки
+		int _currentPointIndex = 0;//Индекс текущей целевой точки
 
 		double _yaw;
 		// Массив коэффициентов для каждой точки(строка - коэффициенты для точки)

@@ -20,7 +20,7 @@ Simulator::Simulator(const ParamsQuadrotor &paramsQuadrotor,
 	controlSystem = new UAVControlSystem(&paramsControlSystem, &paramsSimulator, &paramsQuadrotor, motionPlanner);
 
 	this->paramsSimulator = paramsSimulator;
-
+	
 	
 	sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 	// sock = socket(AF_INET, SOCK_DGRAM, 0);
@@ -48,7 +48,7 @@ Simulator::~Simulator()
  */
 void Simulator::run(std::vector<Eigen::Vector4d> trajectoryCoords)
 {
-
+	std::cout << "run sim" << std::endl;
 	int n = trajectoryCoords.size();
 	MatrixXd_t pointsRowMatrix(n, 3);
 	VectorXd_t timeVector(n);//Вектор-столбец времени
@@ -57,33 +57,36 @@ void Simulator::run(std::vector<Eigen::Vector4d> trajectoryCoords)
 		Eigen::Vector3d coordsRow;
 		for(int j = 0; j < 3; j++)
 		{
-			coordsRow << trajectoryCoords[i](j);//Координаты точки в пространстве
+			coordsRow(j) = trajectoryCoords[i](j);//Координаты точки в пространстве
 		}
 		double time = trajectoryCoords[i].w();
 		pointsRowMatrix.row(i) = coordsRow;
-		timeVector << time;
+		timeVector(i) = time;
 	}
-	
+	std::cout << "fill time vector" << std::endl;
 
 	stateVector = getInitialState();
 	motionPlanner->initializeTrajectory(stateVector, pointsRowMatrix, timeVector);
+	std::cout<<"trajectory initialized"<<std::endl;
 	//motionPlanner->initializeTrajectory()
 	// Выполняем моделирование системы в цикле
 	for (double t = 0; t < paramsSimulator.simulationTotalTime; t += paramsSimulator.dt)
 	{
-		auto targetPoint = motionPlanner->getCurrentTargetPoint(stateVector);
-
+		TargetPoints_t targetPoint = motionPlanner->getCurrentTargetPoint(stateVector);
 
 		// тут необходимо вызывать методы для получения комманд управления
 		VectorXd_t motorsCmd = controlSystem->calculateMotorVelocity(stateVector, targetPoint, t);
-
-
 		// тут необходимо вызывать методы для вычисления функции правых частей
 		// математической модели, выполнять интегрирование приращений и формирование вектора состояния
 		// Прим. Вектор состояния предлагается использовать в виде структуры(описание структуры в message.hpp)
 		stateVector = this->mathModelQuadrotor->calculateStateVector(stateVector, motorsCmd);
 		// устанавливаем метку времени
 		stateVector.timeStamp = t;
+
+		if((int)round(t/paramsSimulator.dt) % 25 == 0)
+		{
+			std::cout<<stateVector.X<<" "<<stateVector.Y<<" "<<stateVector.Z<<std::endl;
+		}
 		// Отправляем вектор состояния
 		sendMessage(stateVector);
 		// Для простейшей имитации движения аппарата в реальном времени 

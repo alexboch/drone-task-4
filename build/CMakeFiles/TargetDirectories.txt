@@ -1,0 +1,4 @@
+/home/user/Downloads/Lab4/quadrotorSim/build/CMakeFiles/edit_cache.dir
+/home/user/Downloads/Lab4/quadrotorSim/build/CMakeFiles/main.dir
+/home/user/Downloads/Lab4/quadrotorSim/build/CMakeFiles/rebuild_cache.dir
+/home/user/Downloads/Lab4/quadrotorSim/build/CMakeFiles/multicoter_simulator.dir

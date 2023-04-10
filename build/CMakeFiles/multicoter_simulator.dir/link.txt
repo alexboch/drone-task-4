@@ -1,0 +1,2 @@
+/usr/bin/ar qc libmulticoter_simulator.a  CMakeFiles/multicoter_simulator.dir/src/mathModelQuadrotor.cpp.o CMakeFiles/multicoter_simulator.dir/src/simulator.cpp.o CMakeFiles/multicoter_simulator.dir/src/UAVControlSystem.cpp.o CMakeFiles/multicoter_simulator.dir/src/math.cpp.o CMakeFiles/multicoter_simulator.dir/src/configLoader.cpp.o CMakeFiles/multicoter_simulator.dir/src/motionPlanner.cpp.o CMakeFiles/multicoter_simulator.dir/src/PIDController.cpp.o
+/usr/bin/ranlib libmulticoter_simulator.a

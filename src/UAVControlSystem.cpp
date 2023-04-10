@@ -12,15 +12,18 @@ UAVControlSystem::UAVControlSystem(const ParamsControlSystem *paramsControlSyste
 	this->thrustController = PIDController(paramsControlSystem->KpPosition(2), paramsControlSystem->KiPosition(2), 
 	paramsControlSystem->KpPosition(2), paramsControlSystem->maxThrust);//регулировка тяги по высоте
 	//Угловое положение по положению
-	this->wxController = PIDController(paramsControlSystem->KpPosition(0), paramsControlSystem->KiPosition(0), 
+	this->rollController = PIDController(paramsControlSystem->KpPosition(0), paramsControlSystem->KiPosition(0), 
 	paramsControlSystem->KdPosition(0));//крен по x
-	this->wyController = PIDController(paramsControlSystem->KpPosition(1), paramsControlSystem->KiPosition(1),
+	this->pitchController = PIDController(paramsControlSystem->KpPosition(1), paramsControlSystem->KiPosition(1),
 	paramsControlSystem->KdPosition(1));//Тангаж по y
 	
 	//Угловая скорость по угловому положению
 	this->wxController = PIDController(paramsControlSystem->KpAngle(0), paramsControlSystem->KiAngle(0), 
-	paramsControlSystem->KdAngle(0));
-	
+	paramsControlSystem->KdAngle(0));//По тангажу
+	this->wyController = PIDController(paramsControlSystem->KpAngle(1), paramsControlSystem->KiAngle(1), 
+	paramsControlSystem->KdAngle(1));//По крену
+	this->wzController = PIDController(paramsControlSystem->KpAngle(2), paramsControlSystem->KiAngle(2), 
+	paramsControlSystem->KdAngle(2));//По рысканию
 
 	//Угловое ускорение по угловой скорости
 	this->awxController = PIDController(paramsControlSystem->KpAngularRate(0), paramsControlSystem->KiAngularRate(0), 
@@ -38,7 +41,7 @@ UAVControlSystem::UAVControlSystem(const ParamsControlSystem *paramsControlSyste
  * @param stateVector вектор состояния БЛА
  * @param targetPoints целевая точка(x, y, z, угол рыскания)
  * @param time 
- * @return VectorXd_t 4 скорости для каждого ротора
+ * @return VectorXd_t 4 скорости для каждого ротора для модели динамики
  */
 VectorXd_t	UAVControlSystem::calculateMotorVelocity(StateVector stateVector, TargetPoints_t targetPoints, double time)
 {

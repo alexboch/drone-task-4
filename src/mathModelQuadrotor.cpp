@@ -82,6 +82,6 @@ StateVector MathModelQuadrotor::calculateStateVector(StateVector &lastStateVecto
  * @param angularVelocityRotors Вектор угловых скоростей роторов
  * @return Вектор ускорений, вектор угловых ускорений
  */
-StateVector	MathModelQuadrotor::functionRight(StateVector &lastStateVector, VectorXd_t rotorsAngularVelocity)
+Eigen::Matrix<double, 2, 3>	MathModelQuadrotor::functionRight(StateVector &lastStateVector, VectorXd_t rotorsAngularVelocity)
 {
 }

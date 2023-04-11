@@ -1,10 +1,12 @@
 #include "mathModelQuadrotor.hpp"
+#include <iostream>
 
 MathModelQuadrotor::MathModelQuadrotor(const ParamsQuadrotor *paramsQuadrotor, const ParamsSimulator *paramsSimulator)
 {
     this->paramsQuadrotor = paramsQuadrotor;
     this->paramsSimulator = paramsSimulator;
-
+    this->angularVelocity << 0.0, 0.0, 0.0;
+    this->velocity << 0.0, 0.0, 0.0;
 }
 
 /**
@@ -20,7 +22,7 @@ StateVector MathModelQuadrotor::calculateStateVector(StateVector &lastStateVecto
     MatrixXd_t rightParts = functionRight(lastStateVector, rotorsAngularVelocity);
     auto enginesVector = Math::matrixToVectorXd_t(rightParts, 0);
     auto angAccelerationVector = Math::matrixToVectorXd_t(rightParts, 1);
-
+    
     this -> angularAcceleration = angAccelerationVector;
     this->angularVelocity += angularAcceleration * this->paramsSimulator->dt;
     this->orientation += angularVelocity * paramsSimulator->dt;//Угловое положение
@@ -78,16 +80,23 @@ MatrixXd_t	MathModelQuadrotor::functionRight(StateVector &lastStateVector, Vecto
     MatrixXd_t inverseInertialTensor = inertialTensor.inverse();
     //Момент тяги
     Eigen::Vector3d thrustMoment;
-    thrustMoment << paramsQuadrotor->lengthOfFlyerArms * paramsQuadrotor->b * (Math::squaring(rotorsAngularVelocity[0]) - Math::squaring(rotorsAngularVelocity[2])),
-    paramsQuadrotor->lengthOfFlyerArms * paramsQuadrotor->b * (Math::squaring(rotorsAngularVelocity[3]) - Math::squaring(rotorsAngularVelocity[2])),
-    paramsQuadrotor->d * (Math::squaring(rotorsAngularVelocity[3] + Math::squaring(rotorsAngularVelocity[1]) - 
-    Math::squaring(rotorsAngularVelocity[0] - Math::squaring(rotorsAngularVelocity[2]))));
+    double l = paramsQuadrotor->lengthOfFlyerArms;
+    double w0 = rotorsAngularVelocity[0], w1 = rotorsAngularVelocity[1], w2 = rotorsAngularVelocity[2], w3 = rotorsAngularVelocity[3];
+    double b = paramsQuadrotor->b, d = paramsQuadrotor->d;
+    thrustMoment << l * b * (w0 * w0 - w2 * w2),
+                    l* b * (w3 * w3 - w1 * w1),
+                    d * (w3 * w3 + w1 * w1 - w0 * w0 - w2* w2);
+    // thrustMoment << paramsQuadrotor->lengthOfFlyerArms * paramsQuadrotor->b * (Math::squaring(rotorsAngularVelocity[0]) - Math::squaring(rotorsAngularVelocity[2])),
+    // paramsQuadrotor->lengthOfFlyerArms * paramsQuadrotor->b * (Math::squaring(rotorsAngularVelocity[3]) - Math::squaring(rotorsAngularVelocity[2])),
+    // paramsQuadrotor->d * 
+    // (Math::squaring(rotorsAngularVelocity[3] + Math::squaring(rotorsAngularVelocity[1]) - 
+    // Math::squaring(rotorsAngularVelocity[0]) - Math::squaring(rotorsAngularVelocity[2])));
     Eigen::Vector3d angVel;
     angVel << lastStateVector.PitchRate, lastStateVector.RollRate, lastStateVector.YawRate;
-    Eigen::Vector3d angularAccelerations;
+    Eigen::Vector3d wAcc;
     Eigen::Vector3d p1;
     p1 = inertialTensor * angVel;
-    angularAcceleration = inverseInertialTensor * (thrustMoment -  angVel.cross(p1));
+    wAcc = inverseInertialTensor * (thrustMoment -  angVel.cross(p1));
     
     double enginesForce = 0.0;//Общая сила, создаваемая всеми двигателями
     
@@ -100,6 +109,7 @@ MatrixXd_t	MathModelQuadrotor::functionRight(StateVector &lastStateVector, Vecto
     enginesVector << 0.0, 0.0, enginesForce;
 
     result.row(0) = enginesVector;
-    result.row(1) = angularAcceleration;
+    result.row(1) = wAcc;
+    std::cout<<result;
     return result;
 }

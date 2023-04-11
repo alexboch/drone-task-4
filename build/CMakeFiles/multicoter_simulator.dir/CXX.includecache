@@ -82,11 +82,21 @@ vector
 string
 -
 
+/home/user/Downloads/Lab4/quadrotorSim/src/PIDController.cpp
+PIDController.hpp
+-
+
 /home/user/Downloads/Lab4/quadrotorSim/src/UAVControlSystem.cpp
 UAVControlSystem.hpp
 /home/user/Downloads/Lab4/quadrotorSim/src/UAVControlSystem.hpp
 PIDController.hpp
 /home/user/Downloads/Lab4/quadrotorSim/src/PIDController.hpp
+iostream
+-
+
+/home/user/Downloads/Lab4/quadrotorSim/src/mathModelQuadrotor.cpp
+mathModelQuadrotor.hpp
+/home/user/Downloads/Lab4/quadrotorSim/src/mathModelQuadrotor.hpp
 iostream
 -
 

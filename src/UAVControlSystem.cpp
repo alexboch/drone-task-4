@@ -13,25 +13,25 @@ UAVControlSystem::UAVControlSystem(const ParamsControlSystem *paramsControlSyste
 	paramsControlSystem->KpPosition(2), paramsControlSystem->maxThrust);//регулировка тяги по высоте
 	//Угловое положение по положению
 	this->rollController = PIDController(paramsControlSystem->KpPosition(0), paramsControlSystem->KiPosition(0), 
-	paramsControlSystem->KdPosition(0));//крен по x
+	paramsControlSystem->KdPosition(0), paramsControlSystem->maxCommandAngle);//крен по x
 	this->pitchController = PIDController(paramsControlSystem->KpPosition(1), paramsControlSystem->KiPosition(1),
-	paramsControlSystem->KdPosition(1));//Тангаж по y
+	paramsControlSystem->KdPosition(1), paramsControlSystem->maxCommandAngle);//Тангаж по y
 	
 	//Угловая скорость по угловому положению
 	this->wxController = PIDController(paramsControlSystem->KpAngle(0), paramsControlSystem->KiAngle(0), 
-	paramsControlSystem->KdAngle(0));//По тангажу
+	paramsControlSystem->KdAngle(0), paramsControlSystem->maxCommandAngularRate);//По тангажу
 	this->wyController = PIDController(paramsControlSystem->KpAngle(1), paramsControlSystem->KiAngle(1), 
-	paramsControlSystem->KdAngle(1));//По крену
+	paramsControlSystem->KdAngle(1), paramsControlSystem->maxCommandAngularRate);//По крену
 	this->wzController = PIDController(paramsControlSystem->KpAngle(2), paramsControlSystem->KiAngle(2), 
-	paramsControlSystem->KdAngle(2));//По рысканию
+	paramsControlSystem->KdAngle(2), paramsControlSystem->maxCommandAngularRate);//По рысканию
 
 	//Угловое ускорение по угловой скорости
 	this->awxController = PIDController(paramsControlSystem->KpAngularRate(0), paramsControlSystem->KiAngularRate(0), 
-	paramsControlSystem->KdAngularRate(0));
+	paramsControlSystem->KdAngularRate(0), paramsControlSystem->maxCommandAngularAcceleration);
 	this->awyController = PIDController(paramsControlSystem->KpAngularRate(1), paramsControlSystem->KiAngularRate(1), 
-	paramsControlSystem->KiAngularRate(1));
+	paramsControlSystem->KiAngularRate(1), paramsControlSystem->maxCommandAngularAcceleration);
 	this->awzController = PIDController(paramsControlSystem->KpAngularRate(2), paramsControlSystem->KiAngularRate(2), 
-	paramsControlSystem->KiAngularRate(2));
+	paramsControlSystem->KiAngularRate(2), paramsControlSystem->maxCommandAngularAcceleration);
 	
 
 }
@@ -51,7 +51,7 @@ VectorXd_t	UAVControlSystem::calculateMotorVelocity(StateVector stateVector, Tar
 	double pDes = thrustController.SetCurrentValue(stateVector.Z);//Команда по тяге
 	//auto rotationMatrix = Math::rotationMatrix2d(stateVector.Yaw);//todo: Матрица поворота
 
-	Eigen::Matrix2d rotationMatrix;
+	MatrixXd_t rotationMatrix = getRotationMatrix(stateVector.Yaw);
 	pitchController.SetTargetValue(targetPoints.y());
 	double pitchDes_st = this->pitchController.SetCurrentValue(stateVector.Y);//тангаж
 	rollController.SetTargetValue(targetPoints.x());
@@ -92,6 +92,14 @@ Eigen::Vector4d	UAVControlSystem::mixer(double pDes, double wDezX, double wDezY,
 	rotorCommands << pDes + wDezX - wDezZ,
 	pDes - wDezY + wDezZ, pDes - wDezX - wDezZ, pDes + wDezY + wDezZ;
 	return rotorCommands;
+}
+
+MatrixXd_t UAVControlSystem::getRotationMatrix(double yaw)
+{
+	MatrixXd_t r(2, 2);
+	r << cos(yaw), -sin(yaw),
+			sin(yaw), cos(yaw);
+	return r;
 }
 
 /**

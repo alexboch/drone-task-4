@@ -117,9 +117,9 @@ ColVectord_c MotionPlanner::getCoeffVector(ColVectord_c conditions, double time1
 	return coeffColVector;
 }
 
-Matrixd_t MotionPlanner::getTMatrix(double time1, double time2)
+MatrixSixBySix MotionPlanner::getTMatrix(double time1, double time2)
 {
-	Matrixd_t tMatrix;
+	MatrixSixBySix tMatrix;
 	tMatrix.row(0) = getMultsPositionPolynom(time1);
 	tMatrix.row(1) = getMultsPositionPolynom(time2);
 	tMatrix.row(2) = getMultsVelocityPolynom(time1);

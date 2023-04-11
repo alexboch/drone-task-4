@@ -55,7 +55,7 @@ class MotionPlanner
 		Vectord_t getMultsAccelerationPolynom(double time);
 
 
-		Matrixd_t getTMatrix(double time1, double time2);
+		MatrixSixBySix getTMatrix(double time1, double time2);
 
 		//Получить вектор-столбец с коэффицентами для заданных начальных и конечных условий
 		ColVectord_c getCoeffVector(ColVectord_c conditions, double time1, double time2);

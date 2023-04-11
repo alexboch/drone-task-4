@@ -20,7 +20,8 @@ class UAVControlSystem
 		const ParamsSimulator		*paramsSimulator;
 		const ParamsQuadrotor		*paramsQuadrotor;
 		const ParamsControlSystem	*parContrlSyst;
-		
+		//Получить матрицу поворота в связную СК
+		MatrixXd_t getRotationMatrix(double yaw);
 
 		//ПИД-регуляторы
 

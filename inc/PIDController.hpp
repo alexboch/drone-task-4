@@ -8,8 +8,8 @@ class PIDController{
 private:
     double _prevError = 0.0;
     double _errorSum = 0.0;
-    double _targetValue;
-    double _currentValue;
+    double _targetValue=0.0;
+    double _currentValue=0.0;
     double _kp, _ki, _kd;
     double _minValue, _maxValue;
     double saturation(double arg);

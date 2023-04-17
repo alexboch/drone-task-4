@@ -81,3 +81,25 @@ VectorXd_t		Math::matrixToVectorXd_t(MatrixXd_t matrix, unsigned int indexRows)
 
 	return (resultVectorXd_t);
 }
+
+double Math::degreesToRadians(double degrees)
+{
+	return M_PI/180.0 * degrees;
+}
+
+double Math::limitAngle(double angle)
+{
+
+	if(abs(angle) > 2 * M_PI)
+	{
+		double d = 2 * M_PI * trunc(abs(angle) / (2 * M_PI));
+		double absDist = abs(angle) - 2 * M_PI * trunc(abs(angle) / (2 * M_PI));
+		if(angle < 0)
+		{
+			return -absDist;
+		}
+		return absDist;
+	}
+	return angle;
+	// return angle - M_PI * trunc(angle / (2 * M_PI)); 
+}

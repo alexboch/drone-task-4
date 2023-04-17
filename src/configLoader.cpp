@@ -20,7 +20,7 @@ void	loadModelConfig(const std::string &fileName, ParamsQuadrotor &quadParam, Pa
 	quadParam.Iyy 					= fs["Iyy"].as<double>();
 	quadParam.Izz 					= fs["Izz"].as<double>();
 	quadParam.maxVelocityRotors		= fs["maxVelocityRotors"].as<double>();
-
+	quadParam.minVelocityRotors 	= fs["minVelocityRotors"].as<double>();
 	// Устанавливаем параметры симулятора
 	simParam.dt 					= fs["simulationStep"].as<double>();
 	simParam.simulationTotalTime 	= fs["simulationTotalTime"].as<double>();

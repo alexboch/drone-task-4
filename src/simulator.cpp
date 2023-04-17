@@ -14,7 +14,7 @@ Simulator::Simulator(const ParamsQuadrotor &paramsQuadrotor,
 	// В случае создания оптимальной траектории рассчитывает полином положения от времени и
 	// минимизирует траекторию согласно заданому критерию(см лекции)
 
-	double yaw = 1.0;
+	double yaw = M_PI / 6.0;//Целевое рыскание в 30 градусов
 	motionPlanner = new MotionPlanner(yaw);
 	// объект системы управления БЛА
 	controlSystem = new UAVControlSystem(&paramsControlSystem, &paramsSimulator, &paramsQuadrotor, motionPlanner);
@@ -41,6 +41,9 @@ Simulator::~Simulator()
 	delete motionPlanner;
 	delete controlSystem;
 }
+
+
+
 
 /**
  * @brief основной метод запускающий процесс симуляции
@@ -85,7 +88,8 @@ void Simulator::run(std::vector<Eigen::Vector4d> trajectoryCoords)
 
 		if((int)round(t/paramsSimulator.dt) % 25 == 0)
 		{
-			std::cout<<stateVector.X<<" "<<stateVector.Y<<" "<<stateVector.Z<<std::endl;
+			std::cout<<"X:"<<stateVector.X<<" Y:"<<stateVector.Y<<" Z:"<<stateVector.Z
+			<<"Yaw:"<<stateVector.Yaw<<std::endl;
 		}
 		// Отправляем вектор состояния
 		sendMessage(stateVector);
@@ -94,6 +98,8 @@ void Simulator::run(std::vector<Eigen::Vector4d> trajectoryCoords)
 		usleep(paramsSimulator.dt * 1e6);
 	}
 }
+
+
 
 void Simulator::sendMessage(const StateVector &stateVector)
 {
@@ -111,6 +117,15 @@ StateVector Simulator::getInitialState()
 {
 	StateVector sv;
 	sv.Z = 1;
-
+	sv.Yaw = M_PI / 6.0;//PI/6 = 30 grad
 	return sv;
+}
+
+//Проверяем математическую модель
+void Simulator::testCalcNextState()
+{
+	StateVector initialState;
+	initialState.X = 2;
+	initialState.Y = 5;
+	initialState.Z = 1;
 }

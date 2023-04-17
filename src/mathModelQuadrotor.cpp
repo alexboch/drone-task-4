@@ -7,7 +7,12 @@ MathModelQuadrotor::MathModelQuadrotor(const ParamsQuadrotor *paramsQuadrotor, c
     this->paramsSimulator = paramsSimulator;
     this->angularVelocity << 0.0, 0.0, 0.0;
     this->velocity << 0.0, 0.0, 0.0;
+    this->orientation << 0.0, 0.0, 0.0;
+    this->acceleration << 0.0, 0.0, 0.0;
+    this->position << 0.0, 0.0, 0.0;
 }
+
+
 
 /**
  * @brief метод рассчитывающий вектор состояния системы
@@ -44,6 +49,23 @@ StateVector MathModelQuadrotor::calculateStateVector(StateVector &lastStateVecto
     this->position += velocity * paramsSimulator->dt;//Положение в стартовой системе координат
 
 
+    //Корректировка значений в [0, 2pi]
+    nextPitch = Math::limitAngle(nextPitch);
+    nextRoll = Math::limitAngle(nextRoll);
+    nextYaw = Math::limitAngle(nextYaw);
+    for(int i = 0; i < 3; i++)
+        angularVelocity[i] = Math::limitAngle(angularVelocity[i]);
+    // if(abs(nextPitch) > 2 * M_PI)
+    //     nextPitch = 0;
+    // if(abs(nextRoll) > 2 * M_PI)
+    //     nextRoll = 0;
+    // if(abs(nextYaw) > 2 * M_PI)
+    //     nextYaw = 0;
+    // for(int i = 0; i < 3; i++)
+    //     if(abs(angularVelocity[i]) > 2 * M_PI)
+    //         angularVelocity[i] = 0;
+    
+
     StateVector nextStateVector;
     nextStateVector.Pitch = nextPitch;
     nextStateVector.Roll = nextRoll;
@@ -70,7 +92,6 @@ StateVector MathModelQuadrotor::calculateStateVector(StateVector &lastStateVecto
 MatrixXd_t	MathModelQuadrotor::functionRight(StateVector &lastStateVector, VectorXd_t rotorsAngularVelocity)
 {
         
-    //Eigen::Matrix<double, 2, 3> result;
     MatrixXd_t result(2, 3);
         //2.Динамика вращательного движения
     MatrixXd_t inertialTensor(3, 3);
@@ -86,11 +107,6 @@ MatrixXd_t	MathModelQuadrotor::functionRight(StateVector &lastStateVector, Vecto
     thrustMoment << l * b * (w0 * w0 - w2 * w2),
                     l* b * (w3 * w3 - w1 * w1),
                     d * (w3 * w3 + w1 * w1 - w0 * w0 - w2* w2);
-    // thrustMoment << paramsQuadrotor->lengthOfFlyerArms * paramsQuadrotor->b * (Math::squaring(rotorsAngularVelocity[0]) - Math::squaring(rotorsAngularVelocity[2])),
-    // paramsQuadrotor->lengthOfFlyerArms * paramsQuadrotor->b * (Math::squaring(rotorsAngularVelocity[3]) - Math::squaring(rotorsAngularVelocity[2])),
-    // paramsQuadrotor->d * 
-    // (Math::squaring(rotorsAngularVelocity[3] + Math::squaring(rotorsAngularVelocity[1]) - 
-    // Math::squaring(rotorsAngularVelocity[0]) - Math::squaring(rotorsAngularVelocity[2])));
     Eigen::Vector3d angVel;
     angVel << lastStateVector.PitchRate, lastStateVector.RollRate, lastStateVector.YawRate;
     Eigen::Vector3d wAcc;
@@ -110,6 +126,5 @@ MatrixXd_t	MathModelQuadrotor::functionRight(StateVector &lastStateVector, Vecto
 
     result.row(0) = enginesVector;
     result.row(1) = wAcc;
-    std::cout<<result;
     return result;
 }

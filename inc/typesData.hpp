@@ -22,6 +22,7 @@ struct ParamsQuadrotor
 	double			Iyy;
 	double			Izz;
 	double			maxVelocityRotors;
+	double			minVelocityRotors;
 };
 
 // Параметры симулятора

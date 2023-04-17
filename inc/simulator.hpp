@@ -43,6 +43,7 @@ class Simulator
 		~Simulator();
 		void run(std::vector<Eigen::Vector4d> trajectoryCoords);
 		void sendMessage(const StateVector &stateVector);
+		void testCalcNextState();
 };
 
 

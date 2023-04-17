@@ -1,11 +1,11 @@
 # Файл конфигурации системы управления
 
 # Коэффициенты ПИД регулятора угловой скорости по оси X
-KpXAngularRate: 100
+KpXAngularRate: 0.100
 KiXAngularRate: 0.0
 KdXAngularRate: 0
 # Коэффициенты ПИД регулятора угловой скорости по оси Y
-KpYAngularRate: 100
+KpYAngularRate: 0.100
 KiYAngularRate: 0.0
 KdYAngularRate: 0
 # Коэффициенты ПИД регулятора угловой скорости по оси Z
@@ -13,29 +13,29 @@ KpZAngularRate: 1
 KiZAngularRate: 0
 KdZAngularRate: 0
 # Коэффициенты ПИД регулятора углового положения по оси X
-KpXAngle: 100
+KpXAngle: 0.0100
 KiXAngle: 0
-KdXAngle: 30
+KdXAngle: 0.30
 # Коэффициенты ПИД регулятора углового положения по оси Y
-KpYAngle: 100
-KiYAngle: 0
-KdYAngle: 30
+KpYAngle: 0.100
+KiYAngle: 0.1
+KdYAngle: 0.030
 # Коэффициенты ПИД регулятора углового положения по оси Z
-KpZAngle: 10
-KiZAngle: 0
-KdZAngle: 0
+KpZAngle: 1
+KiZAngle: 0.01
+KdZAngle: 0.0
 # Коэффициенты ПИД регулятора пространственного положения по оси X
-KpXPosition: 0.3
-KiXPosition: 0.001
-KdXPosition: 0.47
+KpXPosition: 0.1
+KiXPosition: 0
+KdXPosition: 0
 # Коэффициенты ПИД регулятора пространственного положения по оси Y
-KpYPosition: 0.25
-KiYPosition: 0.001
-KdYPosition: 0.47
+KpYPosition: 0.1
+KiYPosition: 0.00
+KdYPosition: 0.0
 # Коэффициенты ПИД регулятора пространственного положения по оси Z
-KpZPosition: 400
-KiZPosition: 50
-KdZPosition: 300
+KpZPosition: 25000
+KiZPosition: 10
+KdZPosition: 00
 
 # Ограничение значений выхода ПИД-регулятора по угловому положению
 maxCommandAngle: 0.5
@@ -50,5 +50,5 @@ maxCommandAngularAcceleration: 25
 
 minCommandAngularAcceleration: -25
 # Ограничение по тяге
-maxThrust: 500
+maxThrust: 3000
 minThrust: 0

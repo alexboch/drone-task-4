@@ -33,7 +33,8 @@ UAVControlSystem::UAVControlSystem(const ParamsControlSystem *paramsControlSyste
 	this->awzController = PIDController(paramsControlSystem->KpAngularRate(2), paramsControlSystem->KiAngularRate(2), 
 	paramsControlSystem->KiAngularRate(2), paramsControlSystem->maxCommandAngularAcceleration);
 	
-
+	this->minVelocityRotors = paramsQuadrotor->minVelocityRotors;
+	this-> maxVelocityRotors = paramsQuadrotor->maxVelocityRotors;
 }
 
 /**
@@ -89,9 +90,24 @@ VectorXd_t	UAVControlSystem::calculateMotorVelocity(StateVector stateVector, Tar
 Eigen::Vector4d	UAVControlSystem::mixer(double pDes, double wDezX, double wDezY, double wDezZ)
 {
 	Eigen::Vector4d rotorCommands;
-	rotorCommands << pDes + wDezX - wDezZ,
-	pDes - wDezY + wDezZ, pDes - wDezX - wDezZ, pDes + wDezY + wDezZ;
-	return rotorCommands;
+	rotorCommands << pDes + wDezX + wDezY- wDezZ,
+	pDes + wDezX - wDezY + wDezZ, pDes - wDezX - wDezY - wDezZ,
+	pDes - wDezX + wDezY + wDezZ;
+	return limitMinMax(rotorCommands);
+}
+
+Eigen::Vector4d UAVControlSystem::limitMinMax(Eigen::Vector4d rotorCommands)
+{
+	Eigen::Vector4d result;
+	for(int i = 0; i < 4; i++)
+	{
+		result[i] = rotorCommands[i];
+		if(result[i] > this->maxVelocityRotors)
+			result[i] = this->maxVelocityRotors;
+		if(result[i] < this -> minVelocityRotors)
+			result[i] = this -> minVelocityRotors;
+	}
+	return result;
 }
 
 MatrixXd_t UAVControlSystem::getRotationMatrix(double yaw)

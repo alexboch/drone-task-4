@@ -12,7 +12,9 @@ class Math
 		static double			squaring(const double &argument);
 		static double			c(const double angl);
 		static double			s(const double angl);
+		static double 			degreesToRadians(double degrees);
 		static VectorXd_t		matrixToVectorXd_t(MatrixXd_t matrix, unsigned int indexRows);
+		static double 			limitAngle(double angle);
 };
 
 #endif

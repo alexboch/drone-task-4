@@ -87,6 +87,7 @@ class UAVControlSystem
 
 		MotionPlanner*				motionPlanner;
 
+		double minVelocityRotors, maxVelocityRotors;
 		/// @brief Переводит команды по тяге и угловым скоростям по осям в команды для роторов
 		/// @param pDes команда по тяге
 		/// @param wDezX команда по угловой скорости по оси X
@@ -102,7 +103,7 @@ class UAVControlSystem
 		bool				checkRadius(VectorXd_t targetPoints);
 		void				saturation(double &arg, double min, double max);
 		double				commandThrustToOmegaRotors(double commandThrust);
-		
+		Eigen::Vector4d limitMinMax(Eigen::Vector4d rotorCommands);
 };
 
 #endif

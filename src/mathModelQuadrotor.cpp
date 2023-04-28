@@ -29,13 +29,16 @@ StateVector MathModelQuadrotor::calculateStateVector(StateVector &lastStateVecto
     auto angAccelerationVector = Math::matrixToVectorXd_t(rightParts, 1);
     
     this -> angularAcceleration = angAccelerationVector;
+
+
+
     this->angularVelocity += angularAcceleration * this->paramsSimulator->dt;
     this->orientation += angularVelocity * paramsSimulator->dt;//Угловое положение
 
     double nextRoll = orientation[0];
     double nextPitch = orientation[1];
     double nextYaw = orientation[2];
-    auto rotationMatrix = Math::rotationMatrix(nextRoll, nextPitch, nextYaw);//Матрица поворота из углов
+    auto rotationMatrix = Math::rotationMatrix(-nextRoll, -nextPitch, -nextYaw);//Матрица поворота из углов
     
     Eigen::Vector3d gravityVector;
     gravityVector << 0.0, 0.0, -GRAVITY_ACCELERATION;
@@ -69,13 +72,16 @@ StateVector MathModelQuadrotor::calculateStateVector(StateVector &lastStateVecto
     StateVector nextStateVector;
     nextStateVector.Pitch = nextPitch;
     nextStateVector.Roll = nextRoll;
-    nextStateVector.Yaw = nextYaw;
+    //nextStateVector.Yaw = nextYaw;
+    nextStateVector.Yaw = 0.0;
     nextStateVector.VelX = velocity.x();
     nextStateVector.VelY = velocity.y();
     nextStateVector.VelZ = velocity.z();
     nextStateVector.X = position.x();
     nextStateVector.Y = position.y();
+    nextStateVector.Y = 0.0;
     nextStateVector.Z = position.z();
+    nextStateVector.Z = 1.0;
     nextStateVector.PitchRate = angularVelocity.x();
     nextStateVector.RollRate = angularVelocity.y();
     nextStateVector.YawRate = angularVelocity.z();
@@ -107,13 +113,24 @@ MatrixXd_t	MathModelQuadrotor::functionRight(StateVector &lastStateVector, Vecto
     thrustMoment << l * b * (w0 * w0 - w2 * w2),
                     l* b * (w3 * w3 - w1 * w1),
                     d * (w3 * w3 + w1 * w1 - w0 * w0 - w2* w2);
+    //std::cout<<std::endl<<"Thrust moment:"<<thrustMoment<<std::endl;
     Eigen::Vector3d angVel;
     angVel << lastStateVector.PitchRate, lastStateVector.RollRate, lastStateVector.YawRate;
     Eigen::Vector3d wAcc;
     Eigen::Vector3d p1;
     p1 = inertialTensor * angVel;
+
+
+    auto cp = angVel.cross(p1);
+    //std::cout<<cp<<std::endl;
     wAcc = inverseInertialTensor * (thrustMoment -  angVel.cross(p1));
-    
+    //std::cout<<std::endl<<"Angular accelerations:"<<wAcc<<std::endl;
+    //Константные угловые ускорения для теста
+    // wAcc(0) = 0;
+    // wAcc(2) = 0;
+    //
+
+
     double enginesForce = 0.0;//Общая сила, создаваемая всеми двигателями
     
     for(int i = 0; i < this->paramsQuadrotor->numberOfRotors; i++)

@@ -1,1 +1,1 @@
-/usr/bin/g++  -g   CMakeFiles/main.dir/src/main.cpp.o  -o main  libmulticoter_simulator.a -lyaml-cpp -lpthread 
+/usr/bin/g++  -g -g   CMakeFiles/main.dir/src/main.cpp.o  -o main  libmulticoter_simulator.a -lyaml-cpp -lpthread 

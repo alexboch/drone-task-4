@@ -5,7 +5,7 @@ KpXAngularRate: 0.100
 KiXAngularRate: 0.0
 KdXAngularRate: 0
 # Коэффициенты ПИД регулятора угловой скорости по оси Y
-KpYAngularRate: 0.100
+KpYAngularRate: 20
 KiYAngularRate: 0.0
 KdYAngularRate: 0
 # Коэффициенты ПИД регулятора угловой скорости по оси Z
@@ -15,25 +15,25 @@ KdZAngularRate: 0
 # Коэффициенты ПИД регулятора углового положения по оси X
 KpXAngle: 0.0100
 KiXAngle: 0
-KdXAngle: 0.30
+KdXAngle: 0.0
 # Коэффициенты ПИД регулятора углового положения по оси Y
-KpYAngle: 0.100
-KiYAngle: 0.1
-KdYAngle: 0.030
+KpYAngle: 10
+KiYAngle: 0.0
+KdYAngle: 0.0
 # Коэффициенты ПИД регулятора углового положения по оси Z
 KpZAngle: 1
 KiZAngle: 0.01
 KdZAngle: 0.0
 # Коэффициенты ПИД регулятора пространственного положения по оси X
-KpXPosition: 0.1
-KiXPosition: 0
-KdXPosition: 0
+KpXPosition: 250
+KiXPosition: 1.0
+KdXPosition: 1.0
 # Коэффициенты ПИД регулятора пространственного положения по оси Y
-KpYPosition: 0.1
+KpYPosition: 20
 KiYPosition: 0.00
 KdYPosition: 0.0
 # Коэффициенты ПИД регулятора пространственного положения по оси Z
-KpZPosition: 25000
+KpZPosition: 250
 KiZPosition: 10
 KdZPosition: 00
 

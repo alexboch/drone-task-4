@@ -15,7 +15,7 @@ Simulator::Simulator(const ParamsQuadrotor &paramsQuadrotor,
 	// минимизирует траекторию согласно заданому критерию(см лекции)
 
 	double yaw = M_PI / 6.0;//Целевое рыскание в 30 градусов
-	motionPlanner = new MotionPlanner(yaw);
+	motionPlanner = new MotionPlanner(0.0);
 	// объект системы управления БЛА
 	controlSystem = new UAVControlSystem(&paramsControlSystem, &paramsSimulator, &paramsQuadrotor, motionPlanner);
 
@@ -116,8 +116,8 @@ void Simulator::sendMessage(const StateVector &stateVector)
 StateVector Simulator::getInitialState()
 {
 	StateVector sv;
-	sv.Z = 1;
-	sv.Yaw = M_PI / 6.0;//PI/6 = 30 grad
+	sv.Z = 1.0;
+	sv.Yaw = 0.0;//PI/6 = 30 grad
 	return sv;
 }
 

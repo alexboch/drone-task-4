@@ -1,0 +1,42 @@
+[
+{
+  "directory": "/home/user/Downloads/Lab4/quadrotorSim/build",
+  "command": "/usr/bin/g++   -I/home/user/Downloads/Lab4/quadrotorSim/inc -I/home/user/Downloads/Lab4/quadrotorSim -I/usr/include/eigen3  -g -g   -std=gnu++17 -o CMakeFiles/main.dir/src/main.cpp.o -c /home/user/Downloads/Lab4/quadrotorSim/src/main.cpp",
+  "file": "/home/user/Downloads/Lab4/quadrotorSim/src/main.cpp"
+},
+{
+  "directory": "/home/user/Downloads/Lab4/quadrotorSim/build",
+  "command": "/usr/bin/g++   -I/home/user/Downloads/Lab4/quadrotorSim/inc -I/home/user/Downloads/Lab4/quadrotorSim -I/usr/include/eigen3  -g -g   -std=gnu++17 -o CMakeFiles/multicoter_simulator.dir/src/mathModelQuadrotor.cpp.o -c /home/user/Downloads/Lab4/quadrotorSim/src/mathModelQuadrotor.cpp",
+  "file": "/home/user/Downloads/Lab4/quadrotorSim/src/mathModelQuadrotor.cpp"
+},
+{
+  "directory": "/home/user/Downloads/Lab4/quadrotorSim/build",
+  "command": "/usr/bin/g++   -I/home/user/Downloads/Lab4/quadrotorSim/inc -I/home/user/Downloads/Lab4/quadrotorSim -I/usr/include/eigen3  -g -g   -std=gnu++17 -o CMakeFiles/multicoter_simulator.dir/src/simulator.cpp.o -c /home/user/Downloads/Lab4/quadrotorSim/src/simulator.cpp",
+  "file": "/home/user/Downloads/Lab4/quadrotorSim/src/simulator.cpp"
+},
+{
+  "directory": "/home/user/Downloads/Lab4/quadrotorSim/build",
+  "command": "/usr/bin/g++   -I/home/user/Downloads/Lab4/quadrotorSim/inc -I/home/user/Downloads/Lab4/quadrotorSim -I/usr/include/eigen3  -g -g   -std=gnu++17 -o CMakeFiles/multicoter_simulator.dir/src/UAVControlSystem.cpp.o -c /home/user/Downloads/Lab4/quadrotorSim/src/UAVControlSystem.cpp",
+  "file": "/home/user/Downloads/Lab4/quadrotorSim/src/UAVControlSystem.cpp"
+},
+{
+  "directory": "/home/user/Downloads/Lab4/quadrotorSim/build",
+  "command": "/usr/bin/g++   -I/home/user/Downloads/Lab4/quadrotorSim/inc -I/home/user/Downloads/Lab4/quadrotorSim -I/usr/include/eigen3  -g -g   -std=gnu++17 -o CMakeFiles/multicoter_simulator.dir/src/math.cpp.o -c /home/user/Downloads/Lab4/quadrotorSim/src/math.cpp",
+  "file": "/home/user/Downloads/Lab4/quadrotorSim/src/math.cpp"
+},
+{
+  "directory": "/home/user/Downloads/Lab4/quadrotorSim/build",
+  "command": "/usr/bin/g++   -I/home/user/Downloads/Lab4/quadrotorSim/inc -I/home/user/Downloads/Lab4/quadrotorSim -I/usr/include/eigen3  -g -g   -std=gnu++17 -o CMakeFiles/multicoter_simulator.dir/src/configLoader.cpp.o -c /home/user/Downloads/Lab4/quadrotorSim/src/configLoader.cpp",
+  "file": "/home/user/Downloads/Lab4/quadrotorSim/src/configLoader.cpp"
+},
+{
+  "directory": "/home/user/Downloads/Lab4/quadrotorSim/build",
+  "command": "/usr/bin/g++   -I/home/user/Downloads/Lab4/quadrotorSim/inc -I/home/user/Downloads/Lab4/quadrotorSim -I/usr/include/eigen3  -g -g   -std=gnu++17 -o CMakeFiles/multicoter_simulator.dir/src/motionPlanner.cpp.o -c /home/user/Downloads/Lab4/quadrotorSim/src/motionPlanner.cpp",
+  "file": "/home/user/Downloads/Lab4/quadrotorSim/src/motionPlanner.cpp"
+},
+{
+  "directory": "/home/user/Downloads/Lab4/quadrotorSim/build",
+  "command": "/usr/bin/g++   -I/home/user/Downloads/Lab4/quadrotorSim/inc -I/home/user/Downloads/Lab4/quadrotorSim -I/usr/include/eigen3  -g -g   -std=gnu++17 -o CMakeFiles/multicoter_simulator.dir/src/PIDController.cpp.o -c /home/user/Downloads/Lab4/quadrotorSim/src/PIDController.cpp",
+  "file": "/home/user/Downloads/Lab4/quadrotorSim/src/PIDController.cpp"
+}
+]

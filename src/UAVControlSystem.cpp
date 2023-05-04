@@ -90,9 +90,9 @@ VectorXd_t	UAVControlSystem::calculateMotorVelocity(StateVector stateVector, Tar
 Eigen::Vector4d	UAVControlSystem::mixer(double pDes, double wDezX, double wDezY, double wDezZ)
 {
 	Eigen::Vector4d rotorCommands;
-	rotorCommands << pDes + wDezX + wDezY- wDezZ,
-	pDes + wDezX - wDezY + wDezZ, pDes - wDezX - wDezY - wDezZ,
-	pDes - wDezX + wDezY + wDezZ;
+	rotorCommands << pDes + wDezX - wDezZ,
+	pDes - wDezY + wDezZ, pDes - wDezX  - wDezZ,
+	pDes + wDezY + wDezZ;
 	return limitMinMax(rotorCommands);
 }
 

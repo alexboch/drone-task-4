@@ -38,7 +38,7 @@ StateVector MathModelQuadrotor::calculateStateVector(StateVector &lastStateVecto
     double nextRoll = orientation[0];
     double nextPitch = orientation[1];
     double nextYaw = orientation[2];
-    auto rotationMatrix = Math::rotationMatrix(-nextRoll, -nextPitch, -nextYaw);//Матрица поворота из углов
+    auto rotationMatrix = Math::rotationMatrix(nextRoll, nextPitch, nextYaw);//Матрица поворота из углов
     
     Eigen::Vector3d gravityVector;
     gravityVector << 0.0, 0.0, -GRAVITY_ACCELERATION;

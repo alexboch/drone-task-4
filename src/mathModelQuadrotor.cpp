@@ -43,7 +43,7 @@ StateVector MathModelQuadrotor::calculateStateVector(StateVector &lastStateVecto
     Eigen::Vector3d gravityVector;
     gravityVector << 0.0, 0.0, -GRAVITY_ACCELERATION;
     //Вектор ускорений поступательного движения по x, y, z в стартовой системе координат
-    Eigen::Vector3d accelerationLinear = 1.0 / paramsQuadrotor->mass * rotationMatrix * enginesVector + gravityVector;
+    Eigen::Vector3d accelerationLinear = 1.0 / paramsQuadrotor->mass * rotationMatrix.transpose() * enginesVector + gravityVector;
 
     this->acceleration = accelerationLinear;
     this->velocity << lastStateVector.VelX, lastStateVector.VelY, lastStateVector.VelZ;
@@ -58,21 +58,10 @@ StateVector MathModelQuadrotor::calculateStateVector(StateVector &lastStateVecto
     nextYaw = Math::limitAngle(nextYaw);
     for(int i = 0; i < 3; i++)
         angularVelocity[i] = Math::limitAngle(angularVelocity[i]);
-    // if(abs(nextPitch) > 2 * M_PI)
-    //     nextPitch = 0;
-    // if(abs(nextRoll) > 2 * M_PI)
-    //     nextRoll = 0;
-    // if(abs(nextYaw) > 2 * M_PI)
-    //     nextYaw = 0;
-    // for(int i = 0; i < 3; i++)
-    //     if(abs(angularVelocity[i]) > 2 * M_PI)
-    //         angularVelocity[i] = 0;
-    
 
     StateVector nextStateVector;
     nextStateVector.Pitch = nextPitch;
     nextStateVector.Roll = nextRoll;
-    //nextStateVector.Yaw = nextYaw;
     nextStateVector.Yaw = 0.0;
     nextStateVector.VelX = velocity.x();
     nextStateVector.VelY = velocity.y();

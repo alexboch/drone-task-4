@@ -60,7 +60,7 @@ VectorXd_t	UAVControlSystem::calculateMotorVelocity(StateVector stateVector, Tar
 	Eigen::Vector2d angles;
 	angles << pitchDes_st, rollDes_st;
 	//Домножим матрицу поворота на упр. возд-я по тангажу и крену, чтобы перепроектировать их в связанную систему с учетом рысканья
-	Eigen::Vector2d angles_sv = rotationMatrix * angles;
+	Eigen::Vector2d angles_sv = rotationMatrix.transpose() * angles;
 	double pitchDes = angles_sv(0);
 	double rollDes = angles_sv(1);
 	this->wxController.SetTargetValue(pitchDes);
